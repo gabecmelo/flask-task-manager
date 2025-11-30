@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap");
+
+.input-container {
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 10px 20px;
+  position: relative;
+  font-family: "IBM Plex Mono", monospace;
+  color: #a3a7ad;
+}
+
+.input-container label {
+  align-items: center;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.input-container label span {
+  margin-top: 15px;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.svg-wrap {
+  border: 2px solid #575969;
+  border-radius: 4px;
+  display: flex;
+  overflow: hidden;
+  transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
+  background-color: #181a29;
+}
+
+.input-container svg .moon-icon {
+  color: #7e7f87;
+  transition: color 300ms ease-in-out;
+  display: block;
+}
+
+.input-container input[type="checkbox"] {
+  cursor: pointer;
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.input-container input[type="checkbox"]:checked + .svg-wrap {
+  border-color: #76b3fa;
+  box-shadow: 0 0 20px 0 #0763f7;
+}
+
+.input-container input[type="checkbox"]:focus-visible + .svg-wrap {
+  border-color: #faed76;
+  box-shadow: 0 0 20px 0 #c96220;
+}

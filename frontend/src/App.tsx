@@ -3,6 +3,7 @@ import './App.css'
 import type { Task } from './types';
 
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
+import ToggleDarkMode from './components/ToggleDarkMode';
 
 const API_URL = "http://localhost:5000/api/tasks";
 
@@ -11,15 +12,13 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState<Boolean>(false);
 
   const changeTheme = () => {
-    setIsDarkMode(!isDarkMode)
-    console.log(isDarkMode);
-    
+    setIsDarkMode(!isDarkMode);
   }
 
 
   return (
     <div className='App' data-theme={isDarkMode ? "dark" : "light"}>
-
+      <ToggleDarkMode onChange={changeTheme}/>
       <button onClick={changeTheme}>mudar fundo</button>
       <div className='card'>
 
