@@ -50,7 +50,7 @@ def create_task():
   
   task = db.session.query(Task).filter_by(title=new_task.title).first()
   
-  if task: return { "error": f"Tarefa com o titulo {new_task.title} já existe" }, 401
+  if task: return { "error": f"Tarefa com o titulo {new_task.title} já existe" }, 400
   
   db.session.add(new_task)
   db.session.commit()
