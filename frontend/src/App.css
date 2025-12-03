@@ -1,16 +1,192 @@
 .App {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  padding-top: 2rem;
   background-color: var(--background-color);
   color: var(--primary-text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 600px;
+  background-color: var(--card-background);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.8rem;
 }
 
 .task-form {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--secondary-text-color);
+}
+
+input {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--primary-text-color);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: var(--button-bg);
+  ring: 2px solid var(--button-bg);
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+.btn-primary:hover {
+  background-color: var(--button-hover);
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  background-color: var(--card-background);
+  transition: all 0.2s;
+}
+
+.task-item.done {
+  opacity: 0.7;
+  border-color: var(--success-color);
+}
+
+.task-item.done h3 {
+  text-decoration: line-through;
+  color: var(--secondary-text-color);
+}
+
+.task-info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.task-info p {
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--secondary-text-color);
+  transition: all 0.2s;
+}
+
+.icon-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--primary-text-color);
+}
+
+.btn-check {
+  color: var(--success-color);
+}
+
+.btn-check:hover {
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.btn-undo {
+  color: var(--warning-color);
+}
+
+.btn-undo:hover {
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+.btn-delete {
+  color: var(--danger-color);
+}
+
+.btn-delete:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* .tooltip {
+  visibility: hidden;
+  position: fixed;
+  margin-top: 3em;
+  margin-left: 10em;
+  padding: 3px 6px;
+  border-radius: 2px;
+  background-color: var(--input-border);
+  color: var(--secondary-text-color);
+  transition-duration: 500ms;
+}
+
+.btn-delete:hover .tooltip {
+  visibility: visible;
+} */
+
+.required {
+  color: var(--danger-color)
 }
