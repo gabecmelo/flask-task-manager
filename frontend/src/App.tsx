@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { FaPlus, FaTimes, FaCheckCircle, FaUndo, FaMoon, FaSun } from 'react-icons/fa';
+import { FaPlus, FaTimes, FaCheckCircle, FaUndo, FaMoon, FaSun, FaEdit, FaSave } from 'react-icons/fa';
 import './App.css';
 import type { FormState, Task } from './types';
 import { defaultFormState } from './utils';
@@ -11,6 +11,9 @@ function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [formState, setFormState] = useState<FormState>(defaultFormState);
+
+  const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
+  const [editFormState, setEditFormState] = useState<FormState>(defaultFormState);
 
   const fetchTasks = async () => {
     try {
@@ -30,7 +33,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formState)
       });
-
+      
       if (!response.ok) throw new Error(`Erro ao criar tarefa`);
 
       setFormState(defaultFormState);
@@ -38,6 +41,40 @@ function App() {
     } catch (e: any) {
       console.error(e);
       window.alert(e.message);
+    }
+  };
+
+  const startEditing = (task: Task) => {
+    setEditingTaskId(task.id);
+    setEditFormState({
+      title: task.title,
+      description: task.description || ''
+    });
+  };
+
+  const cancelEditing = () => {
+    setEditingTaskId(null);
+    setEditFormState({ title: '', description: '' });
+  };
+
+  const saveTask = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!editingTaskId) return;
+
+    try {
+      const response = await fetch(`${API_URL}/${editingTaskId}`, {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editFormState)
+      });
+
+      if (!response.ok) throw new Error('Erro ao atualizar tarefa');
+
+      setEditingTaskId(null);
+      fetchTasks();
+    } catch (e: any) {
+      console.error(e.message);
+      window.alert('Erro ao salvar edição');
     }
   };
 
@@ -55,6 +92,8 @@ function App() {
   };
 
   const deleteTask = async (id: number) => {
+    if(!window.confirm("Tem certeza que deseja excluir esta tarefa?")) return;
+    
     try {
       await fetch(`${API_URL}/${id}`, {
         method: 'DELETE'
@@ -76,7 +115,7 @@ function App() {
   return (
     <div className='App' data-theme={isDarkMode ? "dark" : "light"}>
       <div className='theme-toggle'>
-        <ToggleDarkMode onChange={changeTheme} />
+        <ToggleDarkMode onChange={changeTheme} label={isDarkMode ? 'Modo Escuro' : 'Modo Claro'} />
       </div>
 
       <div className='card'>
@@ -94,7 +133,7 @@ function App() {
               required
             />
           </div>
-
+          
           <div className="input-group">
             <label htmlFor='description'>Descrição</label>
             <input
@@ -114,27 +153,68 @@ function App() {
         <div className="task-list">
           {tasks.map((task) => (
             <div key={task.id} className={`task-item ${task.done ? 'done' : ''}`}>
-              <div className="task-info">
-                <h3>{task.title}</h3>
-                {task.description && <p>{task.description}</p>}
-              </div>
-              <div className="task-actions">
-                <button
-                  onClick={() => toggleTaskDone(task)}
-                  className={`icon-button ${task.done ? 'btn-undo' : 'btn-check'}`}
-                >
-                  {task.done ? <FaUndo size={20} /> : <FaCheckCircle size={20} />}
-                </button>
-                <button
-                  onClick={() => deleteTask(task.id)}
-                  className="icon-button btn-delete"
-                >
-                  {/* <span className='tooltip'>
-                    Deletar tarefa
-                  </span> */}
-                  <FaTimes size={20} />
-                </button>
-              </div>
+              
+              {editingTaskId === task.id ? (
+                <form onSubmit={saveTask} className="edit-form-inline">
+                  <div className="edit-inputs">
+                    <input 
+                      type="text" 
+                      className="edit-input-title"
+                      value={editFormState.title}
+                      onChange={(e) => setEditFormState({...editFormState, title: e.target.value})}
+                      required
+                      autoFocus
+                    />
+                    <textarea 
+                      className="edit-input-desc"
+                      value={editFormState.description}
+                      onChange={(e) => setEditFormState({...editFormState, description: e.target.value})}
+                      rows={2}
+                    />
+                  </div>
+                  <div className="task-actions">
+                    <button type="submit" className="icon-button btn-save" title="Salvar">
+                      <FaSave size={20} />
+                    </button>
+                    <button type="button" onClick={cancelEditing} className="icon-button btn-cancel" title="Cancelar">
+                      <FaTimes size={20} />
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <>
+                  <div className="task-info">
+                    <h3>{task.title}</h3>
+                    {task.description && <p>{task.description}</p>}
+                  </div>
+                  <div className="task-actions">
+                     <button 
+                      onClick={() => startEditing(task)} 
+                      className="icon-button btn-edit"
+                      title="Editar Tarefa"
+                      disabled={task.done}
+                    >
+                      <FaEdit size={18} />
+                    </button>
+
+                    <button 
+                      onClick={() => toggleTaskDone(task)} 
+                      className={`icon-button ${task.done ? 'btn-undo' : 'btn-check'}`}
+                      title={task.done ? "Desmarcar conclusão de tarefa" : "Concluir tarefa"}
+                    >
+                      {task.done ? <FaUndo size={18} /> : <FaCheckCircle size={18} />}
+                    </button>
+                    
+                    <button 
+                      onClick={() => deleteTask(task.id)} 
+                      className="icon-button btn-delete"
+                      title="Excluir tarefa"
+                    >
+                      <FaTimes size={18} />
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>

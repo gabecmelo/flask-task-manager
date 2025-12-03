@@ -6,7 +6,6 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 10px 20px;
   position: absolute;
   top: 1em;
   right: 1em;
@@ -24,7 +23,7 @@
 }
 
 .input-container label span {
-  margin-top: 15px;
+  margin-top: 5px;
   font-size: 12px;
   font-weight: 300;
 }

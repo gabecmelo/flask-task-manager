@@ -18,6 +18,7 @@
   --danger-color: #ef4444;
   --toggle-bg: #f0eb9d;
   --toggle-fg: #ffd000;
+  --info-color: #3b82f6;
 }
 
 [data-theme="dark"] {
@@ -32,6 +33,7 @@
   --button-hover: #4f46e5;
   --toggle-bg: #284452;
   --toggle-fg: #00a6ff;
+  --info-color: #eaf63b;
 }
 
 * {
