@@ -3,18 +3,9 @@ import { gsap } from "gsap";
 import { EasePack } from "gsap/EasePack";
 import { IoMoonOutline } from "react-icons/io5";
 import "./ToggleDarkMode.css";
+import type { AnimationVariant, ToggleDarkModeProps } from "./types";
 
 gsap.registerPlugin(EasePack);
-
-type AnimationVariant = "elastic" | "rough";
-
-interface ToggleDarkModeProps {
-  label?: string;
-  variant?: AnimationVariant;
-  random?: boolean;
-  onChange?: (checked: boolean) => void;
-  defaultChecked?: boolean;
-}
 
 const getAnimationConfig = (variant: AnimationVariant) => {
   if (variant === "rough") {
